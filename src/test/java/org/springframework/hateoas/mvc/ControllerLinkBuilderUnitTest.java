@@ -81,6 +81,15 @@ public class ControllerLinkBuilderUnitTest extends TestUtils {
 	}
 
 	@Test
+	public void createsLinkToSubResourcesWithEncode() {
+
+		Link link = linkTo(PersonControllerImpl.class).slash("some thing")
+				.slash("bad<name").slash("\"quoted thing\"").withSelfRel();
+		assertThat(link.getRel(), is(Link.REL_SELF));
+		assertThat(link.getHref(), endsWith("/people/some%20thing/bad%3Cname/%22quoted%20thing%22"));
+	}
+
+	@Test
 	public void createsLinkWithCustomRel() {
 
 		Link link = linkTo(PersonControllerImpl.class).withRel(Link.REL_NEXT);
